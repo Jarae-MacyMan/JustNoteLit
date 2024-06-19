@@ -13,16 +13,16 @@ Clone the repo!
 Server
 ======
 
-``cd JustNoteIt`` 
-Make sure you have downloaded python and activated a virtual environment
-``source``
-``pipenv install``
-``python main.py``
+1. ``cd JustNoteIt`` 
+2. Make sure you have downloaded python and activated a virtual environment
+3. ``source venv/bin/activate``
+4. ``pipenv install``
+5. ``python main.py``
 
 
 Client
 ======
-``cd justnotelit``
-``npm install``
-``npm start``
+1. ``cd justnotelit``
+2. ``npm install``
+3. ``npm start``
 
