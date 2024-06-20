@@ -11,7 +11,7 @@ import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
-const Signup = (setAuth) => {
+const Signup = () => {
   const context = useContext(Context);
   const { username, password } = context.inputs;
 
@@ -42,15 +42,16 @@ const Signup = (setAuth) => {
 
   return (
     <div>
-      <div class="mx-auto">
-        <Card sx={{ mt: 6, pt: 18, mx: 40, pb: 57 }}>
+
+        <Card sx={{ mt: 20, pt: 5, mx: 90, pb: 15, px: 5 }}>
+         <Typography variant="h2" sx={{ pl: 5 }} >Just Note Lit</Typography>
           <Grid>
-            <Grid item xs={8}>
+            <Grid xs display="flex" justifyContent="center" alignItems="center">
               <div>
                 <label className="px-2">
-                  <h3>User Name:</h3>
+                  <h3>Username:</h3>
                 </label>
-                <input
+                <TextField
                   onChange={(e) => onChange(e)}
                   value={username}
                   type="username"
@@ -61,12 +62,12 @@ const Signup = (setAuth) => {
               </div>
             </Grid>
 
-            <Grid item xs={8}>
+            <Grid item xs={8} display="flex" justifyContent="center" alignItems="center">
               <form onSubmit={onSubmitForm}>
                 <label className="px-2">
                   <h3>Password: </h3>
                 </label>
-                <input
+                <TextField
                   onChange={(e) => onChange(e)}
                   value={password}
                   className="p"
@@ -75,16 +76,16 @@ const Signup = (setAuth) => {
                 />
 
                 <div className="mt-2">
-                  <Button variant="contained" type="submit">
+                  <Button variant="contained" type="submit" sx={{ my: 2, ml:6}}>
                     {" "}
                     Signup
                   </Button>
                 </div>
               </form>
             </Grid>
-          </Grid>
-
-          <div className="mt-2">
+          
+            <Grid item xs={8} display="flex" justifyContent="center" alignItems="center">
+              <div className="mt-2">
                 <small  >
                   Have an account?
                   <span> </span>
@@ -93,8 +94,10 @@ const Signup = (setAuth) => {
                   </Link>
                 </small>
               </div>
+            </Grid>
+          </Grid>
         </Card>
-      </div>
+
     </div>
   );
 };
