@@ -41,9 +41,11 @@ const Login = () => {
 
   return (
     <div >
-      <Card sx={{ mt: 20, pt: 5, mx: 90, pb: 15, px: 5 }}>
-       <Typography variant="h2" sx={{ pl: 5 }}> Just Note Lit</Typography>
+      <Card sx={{ mt: 20, pt: 5, mx: 60, pb: 15, px: 5 }}>
         <Grid>
+          <Grid display="flex" justifyContent="center" alignItems="center">
+              <Typography variant="h2" sx={{ pl: 5, ml:-6 }} >Just Note Lit</Typography>
+            </Grid>
           <Grid xs display="flex" justifyContent="center" alignItems="center">
             <div>
               <label className="px-2">
