@@ -76,7 +76,7 @@ const Login = () => {
               />
 
               <div >
-                <Button variant="contained" type="submit" sx={{ my: 2, ml:6}}>
+                <Button variant="contained" type="submit" sx={{ my: 2, ml:7}}>
                   {" "}
                   Login
                 </Button>

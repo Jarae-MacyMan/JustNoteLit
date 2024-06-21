@@ -45,7 +45,7 @@ const Home = (props) => {
          
         const parseRes = await response.data;
 
-        context.setUserNotes(parseRes.notes);
+        context.setUserNotes(parseRes.notes.reverse());
 
         console.log(context.userNotes);
 
@@ -58,7 +58,7 @@ const Home = (props) => {
     () => {
       getNotes();
     },
-    [] //context.userNotes
+    [context.userNotes] //context.userNotes
   );
 
   const onChange = (e) => { //for create note inpute
@@ -120,12 +120,17 @@ const Home = (props) => {
 
   return (
     <div>
-       
-        <h1>Welcome {context.user} make a note!</h1>
+        <Box display="flex" justifyContent="center" alignItems="center">
+          <Typography variant="h2"  >Welcome {context.user} make a note!</Typography>
+        </Box>
 
 
 
-      <Button onClick={handleOpen} type="button" variant="contained" className="btn btn-dark btn-sm">Create Note</Button>
+      <Button sx={{ml: 5, mt: -7}}onClick={handleOpen} type="button" variant="contained" className="btn btn-dark btn-sm">Create Note</Button>
+
+
+            <Button sx={{ml:140, mb: 10}} variant="contained" onClick={logoutUser}> Logout </Button>
+
 
         <Modal
               open={open}
@@ -161,12 +166,12 @@ const Home = (props) => {
 
 
 
+          <Grid>
+            <Notes/>
+          </Grid>
+        
 
-        <Notes/>
-
-        <div className="mt-2">
-            <Button variant="contained" onClick={logoutUser}> Logout </Button>
-        </div>
+        
 
     </div>
   );

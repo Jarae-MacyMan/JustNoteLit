@@ -13,7 +13,7 @@ const UserNotes = (props) => {
                 note_id = {element.note_id}
                 title = {element.title}
                 body = {element.body}
-                //createdAt = {element.created_at}
+                createdAt = {element.createdAt}
                 //UpdatedAt = {element.updated_at}
             />
         );

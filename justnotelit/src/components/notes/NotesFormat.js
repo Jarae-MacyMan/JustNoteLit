@@ -7,7 +7,7 @@ import httpClient from "../../httpClient";
 
 
 
-import Box from '@mui/material/Box';
+import { Box, ThemeProvider } from '@mui/material';
 import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -31,7 +31,7 @@ const style = { //modal style
 
 
 const NotesFormat = (props) => {
-  const { body, note_id, username, title, date} = props;
+  const { body, note_id, username, title, createdAt} = props;
   const context = useContext(Context);
   const { editTitle, editBody } = context.editNote;
 
@@ -87,10 +87,7 @@ const NotesFormat = (props) => {
 
         handleClose() //close modal after submit
 
-        // context.setEditNote({
-        //     title: "",
-        //     body: ""
-        // }) //reset modal textfeild
+       
 
     };
 
@@ -99,33 +96,47 @@ const NotesFormat = (props) => {
 
 
   return (
-    <div className="m-2">
     
-        <Card variant="outlined" sx={{ maxWidth: 400 }} className="mx-auto pb-2 "  >
 
-        {/* <Grid container spacing={2} className="p-4"> */}
+    <Grid  >
+        <Card variant="outlined"  sx={{ mb: 3, mx: 40}}  >
 
+          <Box sx={{ py:3, bgcolor: 'primary.light'}}>
+          <Grid container  columnSpacing={2}  >
+            <Grid sx={{pr: 10 }}>
+             <Box sx={{pl: 5 }}> {title}</Box>
+            </Grid >
 
+           
+            <Grid  sx={{pl: 50 }}  >
+              <Box > {createdAt}</Box>
+            </Grid>
+          </Grid>
+          </Box>
+         
 
-        {/* <Grid xs={9}> */}
-          <Box className="ps-4 ms-5" >{title}</Box>
-        {/* </Grid> */}
+            <Box sx={{my: 3, mx: 3}}>
+            <Box sx={{ pb:4, border: 1, borderRadius: 2, pl:2, pt:1  }} >
+               <Typography> {body}</Typography>
+              </Box>
+            </Box>
 
-        {/* <Grid xs={9}> */}
-          <Box className="ps-4 ms-5" >{body}</Box>
-        {/* </Grid> */}
+          
+          
+          
 
-        {/* </Grid> */}
+          <Box sx={{ py:3}}>
+          <Grid container  columnSpacing={2}  >
+            <Grid sx={{pl: 4 }}>
+            <Button variant="contained" onClick={handleOpen} > update </Button>
+            </Grid >
 
-       
-
-        <div >
-          <button onClick={(e) => deletePost(e)} > delete</button>
-        </div>
-
-        <div >
-          <button onClick={handleOpen} > update </button>
-        </div>
+           
+            <Grid  sx={{pl: 71 }}  >
+             <Button variant="contained" onClick={(e) => deletePost(e)} color="error"> delete</Button>
+            </Grid>
+          </Grid>
+          </Box>
 
 
 
@@ -162,7 +173,7 @@ const NotesFormat = (props) => {
             </Modal>
 
         </Card>
-    </div>
+        </Grid>
     
   );
 };
