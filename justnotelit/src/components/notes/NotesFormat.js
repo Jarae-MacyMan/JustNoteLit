@@ -14,6 +14,8 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Grid from '@mui/material/Grid';
 import Modal from '@mui/material/Modal';
 import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+
 
 
 
@@ -22,11 +24,14 @@ const style = { //modal style
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: 500,
     bgcolor: 'background.paper',
     border: '2px solid #000',
+    borderRadius: 4,
     boxShadow: 24,
-    p: 4,
+    px: 15,
+    pb: 5,
+    pt: 10
 };
 
 
@@ -145,31 +150,43 @@ const NotesFormat = (props) => {
               onClose={handleClose}
               aria-labelledby="Edit Note"
             >
-              <Box sx={style}>
+              <Card sx={style}>
               
-              
-              <input
+              <form onSubmit={onSubmitForm}>
+              <TextField
+                  fullWidth
                   onChange={(x) => onChange(x)}
-                  //value={title}
                   name="editTitle"
                   className="mb-4"
                   placeholder="Enter a new title"
                 />
 
-                <form onSubmit={onSubmitForm}>
-                <input
+                
+                <TextField 
+                fullWidth sx={{pt: 3}}
                   onChange={(x) => onChange(x)}
-                  //value={body}
                   name="editBody"
                   placeholder="Enter a new note"
+                  multiline
+                  rows={4}
                 />
+
+              <Box sx={{pt: 6}}>
+                <Grid container  columnSpacing={2}  >
+                  <Grid sx={{ml: 2 }}>
+                  <Button variant="contained" type="submit"  > {" "} Update Note </Button>
+                  </Grid >
+                
+                  <Grid  sx={{ml: 30 }}  >
+                  <Button sx={{px: 4 }} variant="contained" onClick={handleClose} color="error" > {" "} Cancel </Button>
+                  </Grid>
+                </Grid>
+                </Box>
                
-                <Button variant="contained" type="submit"  > {" "} Update Note </Button>
-
-                <Button variant="contained" onClick={handleClose}  > {" "} Cancel </Button>
-
+               
+                
               </form>
-              </Box>
+              </Card>
             </Modal>
 
         </Card>

@@ -21,11 +21,14 @@ const style = { //modal style
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: 500,
     bgcolor: 'background.paper',
     border: '2px solid #000',
+    borderRadius: 4,
     boxShadow: 24,
-    p: 4,
+    px: 15,
+    pb: 5,
+    pt: 10
 };
 
 const Home = (props) => {
@@ -58,7 +61,7 @@ const Home = (props) => {
     () => {
       getNotes();
     },
-    [context.userNotes] //context.userNotes
+    [] //context.userNotes
   );
 
   const onChange = (e) => { //for create note inpute
@@ -126,7 +129,7 @@ const Home = (props) => {
 
 
 
-      <Button sx={{ml: 5, mt: -7}}onClick={handleOpen} type="button" variant="contained" className="btn btn-dark btn-sm">Create Note</Button>
+      <Button  sx={{ml: 5, mt: -7}} onClick={handleOpen} type="button" variant="contained" className="btn btn-dark btn-sm" >Create Note</Button>
 
 
             <Button sx={{ml:140, mb: 10}} variant="contained" onClick={logoutUser}> Logout </Button>
@@ -140,8 +143,8 @@ const Home = (props) => {
             >
               <Box sx={style}>
               
-              
-              <input
+              <form onSubmit={onSubmitForm}>
+              <TextField fullWidth
                   onChange={(e) => onChange(e)}
                   type="title"
                   name="title"
@@ -149,16 +152,29 @@ const Home = (props) => {
                   placeholder="Enter a title"
                 />
 
-                <form onSubmit={onSubmitForm}>
-                <input
+               
+                <TextField fullWidth sx={{pt: 3}}
                   onChange={(e) => onChange(e)}
-                 
                   className="p"
                   name="body"
-                  placeholder="Enter body"
+                  placeholder="Enter your note"
+                  multiline
+                  rows={4}
                 />
+
+              <Box sx={{pt: 6}}>
+                <Grid container  columnSpacing={2}  >
+                  <Grid sx={{ml: 2 }}>
+                  <Button  variant="contained" type="submit"  > {" "} Create Note </Button>
+                  </Grid >
+                
+                  <Grid  sx={{ml: 30 }}  >
+                  <Button  sx={{px: 4 }} variant="contained" onClick={handleClose} color="error" > {" "} Cancel </Button>
+                  </Grid>
+                </Grid>
+                </Box>
                
-                <Button variant="contained" type="submit"  > {" "} Create Note </Button>
+                
 
               </form>
               </Box>
