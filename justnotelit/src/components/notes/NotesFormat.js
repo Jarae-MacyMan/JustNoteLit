@@ -50,8 +50,8 @@ const NotesFormat = (props) => {
 
 
   
-    //delete note
-  const deletePost = async (e) => { 
+
+  const deletePost = async (e) => {     //delete note
     e.preventDefault();
     try {
         const response = await httpClient.delete(`//localhost:8000/note/delete/${note_id}`);
@@ -106,18 +106,21 @@ const NotesFormat = (props) => {
     <Grid  >
         <Card variant="outlined"  sx={{ mb: 3, mx: 40}}  >
 
-          <Box sx={{ py:3, bgcolor: 'primary.light'}}>
-          <Grid container  columnSpacing={2}  >
-            <Grid sx={{pr: 10 }}>
-             <Box sx={{pl: 5 }}> {title}</Box>
-            </Grid >
+          
 
-           
-            <Grid  sx={{pl: 50 }}  >
-              <Box > {createdAt}</Box>
-            </Grid>
-          </Grid>
-          </Box>
+          <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                bgcolor: 'background.paper',
+                bgcolor: 'primary.light',
+                px: 2,
+                py: 2.5
+              }}>
+              <Box>{title}</Box>
+        
+              <Box>{createdAt}</Box>
+            </Box>
          
 
             <Box sx={{my: 3, mx: 3}}>
@@ -126,22 +129,22 @@ const NotesFormat = (props) => {
               </Box>
             </Box>
 
-          
-          
-          
-
-          <Box sx={{ py:3}}>
-          <Grid container  columnSpacing={2}  >
-            <Grid sx={{pl: 4 }}>
+            
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                bgcolor: 'background.paper',
+                px: 3,
+                pt: 1,
+                pb: 3
+              }}>
             <Button variant="contained" onClick={handleOpen} > update </Button>
-            </Grid >
-
-           
-            <Grid  sx={{pl: 71 }}  >
-             <Button variant="contained" onClick={(e) => deletePost(e)} color="error"> delete</Button>
-            </Grid>
-          </Grid>
-          </Box>
+        
+            <Button variant="contained" onClick={(e) => deletePost(e)} color="error"> delete</Button>
+            </Box>
+          
+          
 
 
 

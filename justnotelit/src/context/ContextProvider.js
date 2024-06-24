@@ -31,6 +31,8 @@ const ContextProvider = ({ children }) => {
 
   const [user, setUser] = useState("");
 
+  const [sortOldest, setSortOldest] = useState(false);
+
 
 
   const state = {
@@ -49,7 +51,9 @@ const ContextProvider = ({ children }) => {
     deleteNote,
     setDeleteNote,
     user,
-    setUser
+    setUser,
+    sortOldest,
+    setSortOldest
   };
 
   return <Context.Provider value={state}>{children}</Context.Provider>;

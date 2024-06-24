@@ -16,6 +16,17 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Modal from '@mui/material/Modal';
 
+//dropdown
+import ButtonGroup from '@mui/material/ButtonGroup';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
+import Grow from '@mui/material/Grow';
+import Paper from '@mui/material/Paper';
+import Popper from '@mui/material/Popper';
+import MenuItem from '@mui/material/MenuItem';
+import MenuList from '@mui/material/MenuList';
+
+
 const style = { //modal style
     position: 'absolute',
     top: '50%',
@@ -31,6 +42,10 @@ const style = { //modal style
     pt: 10
 };
 
+//dropdown         0                   1
+const options = ['Sort By: Oldest', 'Sort By: Newest'];
+
+
 const Home = (props) => {
   const context = useContext(Context);
   const { title, body } = context.newNote;
@@ -40,7 +55,39 @@ const Home = (props) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  //dropdown menu
+  const [openDropdown, setOpenDropdown] = React.useState(false);
+  const anchorRef = React.useRef(null);
+  const [selectedIndex, setSelectedIndex] = React.useState(1);
+  console.log(context.sortOldest);
+  
 
+  const handleMenuItemClick = (event, index) => {
+    setSelectedIndex(index);
+    
+    if (index == 0 && (context.userNotes[0].note_id > context.userNotes[1].note_id)) {
+      context.setSortOldest(true)
+    } else if (index == 1 && (context.userNotes[1].note_id > context.userNotes[0].note_id)) {
+      context.setSortOldest(false)
+    }
+    
+    setOpenDropdown(false);
+    
+  };
+
+  const handleToggle = () => {
+    setOpenDropdown((prevOpen) => !prevOpen);
+  };
+
+  const handleCloseD = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+
+    setOpenDropdown(false);
+  };
+
+  
 
   const getNotes = async (e) => { //dispaly notes
     try {
@@ -48,7 +95,12 @@ const Home = (props) => {
          
         const parseRes = await response.data;
 
-        context.setUserNotes(parseRes.notes.reverse());
+        // context.setUserNotes(parseRes.notes.reverse());
+        if(context.sortOldest == true){
+          context.setUserNotes(parseRes.notes);
+        } else {
+          context.setUserNotes(parseRes.notes.reverse());
+        }
 
         console.log(context.userNotes);
 
@@ -61,7 +113,7 @@ const Home = (props) => {
     () => {
       getNotes();
     },
-    [] //context.userNotes
+    [context.userNotes] //context.userNotes
   );
 
   const onChange = (e) => { //for create note inpute
@@ -88,11 +140,7 @@ const Home = (props) => {
 
     handleClose() //close modal after submit
 
-    // context.setNewNote({
-    //     title: "",
-    //     body: ""
-    //   }) //reset modal textfeild
-
+ 
   };
 
 
@@ -118,7 +166,7 @@ const Home = (props) => {
   }, []);
 
 
-
+//justify end/btw
 
 
   return (
@@ -129,11 +177,87 @@ const Home = (props) => {
 
 
 
-      <Button  sx={{ml: 5, mt: -7}} onClick={handleOpen} type="button" variant="contained" className="btn btn-dark btn-sm" >Create Note</Button>
+     
+
+    <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          p: 2,
+          my: 5,
+          bgcolor: 'background.paper',
+          borderRadius: 1,
+        }}
+      > 
+      <Button   onClick={handleOpen} type="button" variant="contained" className="btn btn-dark btn-sm" >Create Note</Button>
+
+        {/* dropdown code */}
+      <Box>
+            <React.Fragment>
+      <ButtonGroup
+        variant="contained"
+        ref={anchorRef}
+        aria-label="Button group with a nested menu"
+      >
+        <Button >{options[selectedIndex]}</Button>
+        <Button
+          size="small"
+          aria-controls={openDropdown ? 'split-button-menu' : undefined}
+          aria-expanded={openDropdown ? 'true' : undefined}
+          aria-label="select merge strategy"
+          aria-haspopup="menu"
+          onClick={handleToggle}
+        >
+          <ArrowDropDownIcon />
+        </Button>
+      </ButtonGroup>
+      <Popper
+        sx={{
+          zIndex: 1,
+        }}
+        open={openDropdown}
+        anchorEl={anchorRef.current}
+        role={undefined}
+        transition
+        disablePortal
+      >
+        {({ TransitionProps, placement }) => (
+          <Grow
+            {...TransitionProps}
+            style={{
+              transformOrigin:
+                placement === 'bottom' ? 'center top' : 'center bottom',
+            }}
+          >
+            <Paper>
+              <ClickAwayListener onClickAway={handleClose}>
+                <MenuList id="split-button-menu" autoFocusItem>
+                  {options.map((option, index) => (
+                    <MenuItem
+                      key={option}
+                      
+                      selected={index === selectedIndex}
+                      onClick={(event) => handleMenuItemClick(event, index)}
+                    >
+                      {option}
+                    </MenuItem>
+                  ))}
+                </MenuList>
+              </ClickAwayListener>
+            </Paper>
+          </Grow>
+        )}
+      </Popper>
+    </React.Fragment>
+    </Box>
+
+        <Button  variant="contained" onClick={logoutUser}> Logout </Button>
+      </Box>
 
 
-            <Button sx={{ml:140, mb: 10}} variant="contained" onClick={logoutUser}> Logout </Button>
 
+
+           
 
         <Modal
               open={open}
