@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import redis
+from os import environ
 
 app = Flask(__name__) #creates flask instance
 CORS(app, supports_credentials=True)

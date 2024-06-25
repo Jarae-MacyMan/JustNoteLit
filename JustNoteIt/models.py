@@ -1,5 +1,4 @@
 from config import db
-from mistune import markdown
 
 #create user class
 class User(db.Model):

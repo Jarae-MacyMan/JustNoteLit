@@ -1,0 +1,8 @@
+flask
+psycopg2-binary
+flask-sqlalchemy
+flask-bcrypt
+flask-session
+flask-cors
+redis
+python-dotenv
