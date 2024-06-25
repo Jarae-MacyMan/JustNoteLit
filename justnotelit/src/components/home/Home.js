@@ -140,7 +140,11 @@ const Home = (props) => {
 
     handleClose() //close modal after submit
 
- 
+    // context.setNewNote({
+    //     title: "",
+    //     body: ""
+    //   }) //reset modal textfeild
+
   };
 
 
