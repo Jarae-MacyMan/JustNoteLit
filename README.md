@@ -11,6 +11,8 @@ Prerequisites:
 
 Docker: Ensure that Docker and Docker Compose is installed on your system. 
 
+Steps to Run the Application
+===========================
 
 1. ``git clone git@github.com:Jarae-MacyMan/JustNoteLit.git`` 
 2. ``cd NotesApp``
