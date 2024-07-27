@@ -135,7 +135,9 @@ const Home = (props) => {
       
 
     } catch (error) {
-      console.error(error);
+      if (error.response.status == 400) {
+        alert(error.response.data.error);
+      }
     }
 
     handleClose() //close modal after submit
