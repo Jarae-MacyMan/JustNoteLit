@@ -64,17 +64,13 @@ def sign_up():
         elif User.query.filter_by(username=username).first(): #searches thru db to see if username exists
             error = 'Username exists'
 
-
-        try:
+        if error is None:
             new_user = User(username=username, password=bcrypt.generate_password_hash(password))
             #get session from db to edit it
             db.session.add(new_user) #creates user
             db.session.commit() #inserts user into db
 
             session['user_id'] = new_user.id
-
-        except:
-            return jsonify({"error": error}), 409
         
         return jsonify({"id":new_user.id,"username":new_user.username, "message":"sign up success!"})
     
@@ -91,29 +87,17 @@ def log_in():
 
         user = User.query.filter_by(username=username).first() #searches for user by username
 
-        #if user doesnt exist
-        if user is None:
-            error = "Username or password are incorrect"
-            return jsonify({"error": error}), 401
+        #if no user or if passoword for user doesnt exist
+        if not user or not bcrypt.check_password_hash(user.password, password):
+            return jsonify({"message":"Username or password are incorrect."}) #return to home
+            #error = 'Username or password are incorrect.'
 
-        #if passoword for user doesnt exist
-        if not bcrypt.check_password_hash(user.password, password):
-            error = "Username or password are incorrect"
-            return jsonify({"error": error }), 401
-        
-        
-        try:
+        if error is None:
             session.clear() #reset the session by clearing it before login
             session['user_id'] = user.id #assignes the user an id
             session['username'] = user.username #assign username 
-
-        except Exception as error:
-            return jsonify({"error": error}), 401
+            return jsonify({"id":user.id, "username":user.username, "message":"log in success!"})
         
-        return jsonify({"id":user.id, "username":user.username, "message":"log in success!"})
-
-
-
 @app.route("/logout", methods=["POST"])
 def logout_user():
     session.pop("user_id") #remove user from session
@@ -143,21 +127,21 @@ def create_notes():
     title = request.json.get("title")
     body = request.json.get("body")
     #gets the notes title and body input
-    error = None
 
-    if not title or not body:
-        #if not title or body then return err
-        error = 'You must include the title and body of your note'
-        return jsonify({"error": error}),400
+    if not title:
+        #if not title then return err
+        return (
+            jsonify({"message": "You must include a title"}),
+            400,
+        )
 
     note = Note(author=g.user, title=title, body=body) #create new note
 
     try:
-        
         db.session.add(note) #add note to session
         db.session.commit() #session commits note to db
-    except:
-        return jsonify({"error": error}), 400
+    except Exception as e:
+        return jsonify({"message": str(e)}), 400
         
     return jsonify({"title":note.title, "body":note.body, "message":"Note Added!"})
     
@@ -166,24 +150,22 @@ def create_notes():
 def note_update(note_id):
     user_id = session.get("user_id") #get the user from session
     note = Note.query.filter_by(user_id=user_id, id=note_id).first_or_404() #filter to get note from userid and note id
-    error = None
-    
-    
+
     if request.method in ['PUT', 'PATCH']:
         title = request.json.get("title")
         body = request.json.get("body")
+        error = None
 
-        if not title or not body:
-        #if not title or body then return err
-            error = 'You must include the title and body of your note'
-            return jsonify({"error": error}),400
-
+        if not title:
+            error = 'Title is required.'
 
         if not error:
             note.title = request.json.get("title", title)
             note.body = request.json.get("body", body)
             #db.session.add(note)
             db.session.commit()
+
+        flash(error, 'error')
 
     return jsonify({"title":note.title, "body":note.body, "message":"note edited"})
 

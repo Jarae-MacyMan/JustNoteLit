@@ -135,9 +135,7 @@ const Home = (props) => {
       
 
     } catch (error) {
-      if (error.response.status == 400) {
-        alert(error.response.data.error);
-      }
+      console.error(error);
     }
 
     handleClose() //close modal after submit
@@ -170,6 +168,7 @@ const Home = (props) => {
       }
     })();
   }, []);
+
 
 //justify end/btw
 

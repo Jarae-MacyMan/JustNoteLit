@@ -34,9 +34,7 @@ const Login = () => {
 
       //localStorage.setItem("token", parseRes.token);
     } catch (error) {
-        if (error.response.status == 401) {
-          alert(error.response.data.error);
-        }
+      console.error(error.message);
     }
   };
   //sx={{ mt: 6, pt: 5, mx: 40, pb: 20, px:20 }}
