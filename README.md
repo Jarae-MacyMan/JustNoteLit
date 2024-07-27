@@ -25,4 +25,3 @@ Steps to Run the Application
 5. Use Docker Compose to pull the images from Docker Hub and start the containers. ``docker-compose up``
 6. Open a web browser and navigate to "http://localhost:3000"
 7. To stop containers ``docker-compose down``
-
