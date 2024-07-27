@@ -36,7 +36,9 @@ const Signup = () => {
 
       //localStorage.setItem("token", parseRes.token);
     } catch (error) {
-      console.error(error.message);
+      if (error.response.status == 409) {
+        alert(error.response.data.error);
+      }
     }
   };
 
