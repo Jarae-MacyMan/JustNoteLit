@@ -26,3 +26,4 @@ Steps to Run the Application
 6. Open a web browser and navigate to "http://localhost:3000"
 7. To stop containers ``docker-compose down``
 
+
