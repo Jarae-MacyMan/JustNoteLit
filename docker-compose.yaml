@@ -19,7 +19,7 @@ services:
   react_app:
     build: ./client
     container_name: justnotelit-react-app
-    image: justsjars/note-lit-react-app
+    image: justsjars/ec2-react-app:latest 
     ports: 
       - "3000:3000"
     depends_on:
