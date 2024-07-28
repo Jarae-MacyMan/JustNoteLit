@@ -29,7 +29,7 @@ services:
 
   redis:
     container_name: justnotelit-redis-server
-    image: redis:latest
+    image: justsjars/note-lit-redis:latest
     ports:
       - "6379:6379"
     networks:
