@@ -56,11 +56,17 @@ def sign_up():
         password = request.json["password"]
         error = None
 
+        #check if username alr exists
+        user = User.query.filter_by(username=username).first()
+
+
         #if user doesnt provide username passwd or unique name then error
         if not username:
             error = 'Username is required'
         elif not password:
             error = 'Password is required'
+        elif user:
+            error = 'username already exisits'
         elif User.query.filter_by(username=username).first(): #searches thru db to see if username exists
             error = 'Username exists'
 
