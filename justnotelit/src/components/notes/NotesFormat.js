@@ -54,7 +54,7 @@ const NotesFormat = (props) => {
   const deletePost = async (e) => {     //delete note
     e.preventDefault();
     try {
-        const response = await httpClient.delete(`//localhost:8000/note/delete/${note_id}`);
+        const response = await httpClient.delete(`//35.172.185.132:8000/note/delete/${note_id}`);
         const parseRes = await response.data;
         console.log(parseRes)
         
@@ -77,7 +77,7 @@ const NotesFormat = (props) => {
         
 
         try {
-            const response = await httpClient.patch(`//localhost:8000/note/edit/${note_id}`, {
+            const response = await httpClient.patch(`//35.172.185.132:8000/note/edit/${note_id}`, {
                 title,
                 body,
             });

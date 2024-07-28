@@ -91,7 +91,7 @@ const Home = (props) => {
 
   const getNotes = async (e) => { //dispaly notes
     try {
-        const response = await httpClient.get("//localhost:8000/notes");
+        const response = await httpClient.get("//35.172.185.132:8000/notes");
          
         const parseRes = await response.data;
 
@@ -125,7 +125,7 @@ const Home = (props) => {
     e.preventDefault();
 
     try {
-        const response = await httpClient.post("//localhost:8000/notes/new", {
+        const response = await httpClient.post("//35.172.185.132:8000/notes/new", {
             title,
             body,
           });
@@ -152,7 +152,7 @@ const Home = (props) => {
 
 
   const logoutUser = async () => { //logs user out
-    await httpClient.post("//localhost:8000/logout");
+    await httpClient.post("//35.172.185.132:8000/logout");
     window.location.href = "/login";
   };
 
@@ -160,7 +160,7 @@ const Home = (props) => {
   useEffect(() => { //checks if user is logged 
     (async () => {
       try {
-        const response = await httpClient.get("//localhost:8000/@me");
+        const response = await httpClient.get("//35.172.185.132:8000/@me");
 
         const parseRes = await response.data;
         console.log(parseRes.username);
