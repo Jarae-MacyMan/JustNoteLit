@@ -29,9 +29,19 @@ const ContextProvider = ({ children }) => {
 
   const [deleteNote, setDeleteNote] = useState(false);
 
+  const [sortOldest, setSortOldest] = useState(false);
+
+  const [searchedNotes, setSearchedNotes] = useState([]);
+
+  const [search, setSearch] = useState("");
+
   const [user, setUser] = useState("");
 
-  const [sortOldest, setSortOldest] = useState(false);
+
+
+
+
+
 
 
 
@@ -50,10 +60,14 @@ const ContextProvider = ({ children }) => {
     setEditNote,
     deleteNote,
     setDeleteNote,
+    sortOldest,
+    setSortOldest,
+    searchedNotes,
+    setSearchedNotes,
     user,
     setUser,
-    sortOldest,
-    setSortOldest
+    search,
+    setSearch
   };
 
   return <Context.Provider value={state}>{children}</Context.Provider>;

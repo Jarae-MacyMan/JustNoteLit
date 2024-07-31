@@ -10,7 +10,7 @@ import {
 import Home from "./components/home/Home";
 import Login from "./components/login/Login";
 import Signup from "./components/signup/Signup";
-// import Notes from "./components/notes/Note";
+import SearchedNotePage from "./components/searchedNotePage/SearchedNotePage";
 
 
 function App() {
@@ -43,6 +43,14 @@ function App() {
             path="/home"
             element={
               <Home/>
+            }
+            
+          />
+          <Route
+            exact
+            path="/search"
+            element={
+              <SearchedNotePage/>
             }
             
           />

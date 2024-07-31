@@ -24,7 +24,7 @@ const Signup = () => {
     e.preventDefault();
 
     try {
-      const response = await httpClient.post("//35.172.185.132:8000/signup", {
+      const response = await httpClient.post("//localhost:8000/signup", {
 
         username,
         password,

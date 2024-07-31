@@ -1,11 +1,9 @@
-
 import Context from "../../context/context";
 import { useContext, useEffect, useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import httpClient from "../../httpClient.js";
 import Notes from "../notes/Notes.js";
-import { useLocation, useNavigate } from "react-router-dom";
-
+import { useLocation } from "react-router-dom";
 
 
 import * as React from "react";
@@ -17,7 +15,6 @@ import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Modal from '@mui/material/Modal';
-
 
 //dropdown
 import ButtonGroup from '@mui/material/ButtonGroup';
@@ -49,14 +46,13 @@ const style = { //modal style
 const options = ['Sort By: Oldest', 'Sort By: Newest'];
 
 
-const Home = (props) => {
+const SearchedNotePage = (props) => {
   const context = useContext(Context);
   const { title, body } = context.newNote;
+  //const { search } = context.searchedInput;
+  //const { search } = useContext(Context);
 
-  //const [word, setword] = ("")
-  // const [searchedInput, setSearchedInput] = useState({
-  //   search: ""
-  // });
+
 
   //new note modal
   const [open, setOpen] = React.useState(false);
@@ -67,11 +63,6 @@ const Home = (props) => {
   const [openDropdown, setOpenDropdown] = React.useState(false);
   const anchorRef = React.useRef(null);
   const [selectedIndex, setSelectedIndex] = React.useState(1);
-  console.log(context.sortOldest);
-
-  //search
-  //const { search } = context.setSearchedInput;
-
   
 
   const handleMenuItemClick = (event, index) => {
@@ -103,17 +94,38 @@ const Home = (props) => {
 
   const getNotes = async (e) => { //dispaly notes
     try {
-        const response = await httpClient.get("//localhost:8000/notes"); //fetch request URL
+        const response = await httpClient.get("//localhost:8000/notes");
          
-        const parseRes = await response.data; //get object from response
+        const parseRes = await response.data;
 
-        if(context.sortOldest == true){ //sortOldest function determines how notes are displayed
-          context.setUserNotes(parseRes.notes);
-        } else {
-          context.setUserNotes(parseRes.notes.reverse());
+        let bro = context.search
+        //str.includes(phrase)
+        //console.log(parseRes.notes)
+
+        let arr = parseRes.notes
+
+        let newArr = []
+    
+        for (let i = 0; i < arr.length; i++) {
+          let str = arr[i].title
+          //console.log(str)
+          if (str.includes(bro)) {
+            newArr.push(arr[i])
+            
+          }
         }
 
-        console.log(context.userNotes);
+        console.log(newArr)
+
+
+        // context.setUserNotes(parseRes.notes.reverse());
+        if(context.sortOldest == true){
+          context.setUserNotes(newArr);
+        } else {
+          context.setUserNotes(newArr.reverse());
+        }
+
+        
 
     } catch (error) {
       console.error(error);
@@ -132,7 +144,6 @@ const Home = (props) => {
   };
 
   const onSubmitForm = async (e) => { //new note 
-    console.log(title, body);
     e.preventDefault();
 
     try {
@@ -142,7 +153,6 @@ const Home = (props) => {
           });
 
       const parseRes = await response.data;
-      console.log(parseRes);
       
 
     } catch (error) {
@@ -153,18 +163,17 @@ const Home = (props) => {
 
     handleClose() //close modal after submit
 
-    // context.setNewNote({
-    //     title: "",
-    //     body: ""
-    //   }) //reset modal textfeild
 
   };
 
 
+    //console.log(context.userNotes)
 
-  const logoutUser = async () => { //logs user out
-    await httpClient.post("//localhost:8000/logout");
-    window.location.href = "/login";
+ 
+
+
+  const goHome = async () => { //logs user out
+    window.location.href = "/home";
   };
 
 
@@ -174,7 +183,6 @@ const Home = (props) => {
         const response = await httpClient.get("//localhost:8000/@me");
 
         const parseRes = await response.data;
-        console.log(parseRes.username);
         context.setUser(parseRes.username)
       } catch (error) {
         console.error(error);
@@ -182,35 +190,19 @@ const Home = (props) => {
     })();
   }, []);
 
-  const onChangeSearch = (input) => { //for create note inpute
-    context.setSearch(input.target.value);
-
-  };
 
 
-// //justify end/btw
-console.log(context.search);
-
-  let input = context.search
 
 
-  const navigate = useNavigate();
 
-  //search Func
-  const onSearch = (e) => { //new note 
-    e.preventDefault();
-    //console.log(context.search);
-    navigate("/search")
-    //window.location.href = "/searchedNotePage"
-   
-  }
+
 
 
 
   return (
     <div>
         <Box display="flex" justifyContent="center" alignItems="center">
-          <Typography variant="h2" sx={{ pt:3}} >Welcome {context.user} make a note!</Typography>
+          <Typography variant="h2" sx={{ pt:3}} >Results for  {context.search}</Typography>
         </Box>
 
 
@@ -221,20 +213,15 @@ console.log(context.search);
         sx={{
           display: 'flex',
           justifyContent: 'space-between',
-          
+          p: 2,
+          my: 5,
           bgcolor: 'background.paper',
           borderRadius: 1,
-          my:5
         }}
       > 
-      <Button sx={{ ml:3, my:2}}  onClick={handleOpen} type="button" variant="contained" className="btn btn-dark btn-sm" >Create Note</Button>
-
-        
-
-
 
         {/* dropdown code */}
-      <Box sx={{ mt: 2}}>
+      <Box>
             <React.Fragment>
       <ButtonGroup
         variant="contained"
@@ -291,48 +278,10 @@ console.log(context.search);
         )}
       </Popper>
     </React.Fragment>
-
     </Box>
 
-        {/* search */}
-    <form onSubmit={onSearch}>
-      <Box sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          bgcolor: 'background.paper',
-          borderRadius: 1,
-          bgcolor: 'background.paper',
-          
-        }}>
-
-              <label className="px-2">
-              </label>
-              <TextField
-                size="small"
-                // value={input}
-                onChange={(input) => onChangeSearch(input)}
-                // className="p"
-                 name="input"
-                placeholder="Search Note Title"
-                sx={{ mx:2, mt: 2}}
-              />
-
-              <div >
-                <Button variant="contained" type="submit" sx={{ mt: 2, ml:1, py:1 }}>
-                  {" "}
-                  Search
-                </Button>
-              </div>
-              </Box>
-            </form>
-
-        <Button  variant="contained" sx={{ my: 2, mr:3 }} onClick={logoutUser}> Logout </Button>
-
-
+        <Button  variant="contained" onClick={goHome}> Home </Button>
       </Box>
-
-    
-
 
 
 
@@ -397,4 +346,4 @@ console.log(context.search);
   );
 };
 
-export default Home;
+export default SearchedNotePage;
